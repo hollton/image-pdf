@@ -1,4 +1,8 @@
 # image-pdf
+
+[![npm](https://img.shields.io/npm/v/image-pdf.svg)](https://www.npmjs.com/package/image-pdf) 
+[![LICENSE MIT](https://img.shields.io/npm/l/image-pdf.svg)](https://www.npmjs.com/package/image-pdf)
+
 image-pdf 多张图片生成PDF文件
 
 ## 使用 Usage
