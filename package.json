@@ -1,7 +1,7 @@
 {
   "name": "image-pdf",
-  "version": "1.0.2",
-  "description": "image-pdf 图片生成pdf",
+  "version": "1.0.3",
+  "description": "image-pdf 图片或文字信息转成PDF文件",
   "main": "index.js",
   "scripts": {
     "build": "webpack --progress --optimize-minimize"
