@@ -10,6 +10,7 @@ image-pdf 图片或文字信息转成PDF文件
 * 支持图片 src 方式
 * 支持文字
 * 支持分页，避免图片内容被截断
+* 支持异步回调
 
 ## 效果 Demo
 * [Demo 代码](https://github.com/hollton/image-pdf/blob/master/examples/index.html)
@@ -47,3 +48,12 @@ imagePdf(imagesData, 'title')
 * }],
 * @param {String} title 下载pdf文件的名称
 * @param {Object} options 配置信息，待完善
+
+## 返回 Return
+```
+imagePdf(imagesData, 'title').then(result => {
+    console.log(result)
+}, error => {
+    console.log(error)
+})
+```

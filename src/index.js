@@ -13,10 +13,12 @@
  * }],
  * @param {String} title 下载pdf文件的名称
  * @param {Object} options 配置信息，待完善
+ * @return promise.then
  * 支持图片 base64 方式
  * 支持图片 src 方式
  * 支持文字
  * 支持分页，避免图片内容被截断
+ * 支持异步回调
  */
 import jsPDF from 'jspdf'
 
@@ -103,7 +105,9 @@ const savePdf = (images, title, options) => {
                 break
         }
     })
-    pdf.save(`${title}.pdf`)
+    return pdf.save(`${title}.pdf`, {
+        returnPromise: true
+    })
 }
 
 /**
@@ -128,7 +132,7 @@ const getBase64Image = img => {
 const imagePdf = (images, title, options) => {
     let newImages = []
     let index = 0
-    const formatImages = index => {
+    const formatImages = (index, resolve, reject) => {
         if (index < images.length) {
             const img = images[index]
             let _img = {
@@ -145,22 +149,36 @@ const imagePdf = (images, title, options) => {
                     _img.width = newImg.width
                     _img.height = newImg.height
                     newImages.push(_img)
-                    formatImages(++index)
+                    formatImages(++index, resolve, reject)
                 }
                 newImg.onerror = () => {
-                    formatImages(++index)
+                    formatImages(++index, resolve, reject)
                 }
                 newImg.setAttribute('crossOrigin', 'anonymous')
                 newImg.src = _img.data
             } else {
                 newImages.push(_img)
-                formatImages(++index)
+                formatImages(++index, resolve, reject)
             }
         } else {
             savePdf(newImages, title, options)
+            .then(result => {
+                resolve(result)
+            })
+            .catch(error => {
+                reject(error)
+            })
         }
     }
-    formatImages(index)
+    
+    const promise = new Promise((resolve, reject) => {
+        formatImages(index, result => {
+            resolve(result)
+        }, error => {
+            reject(error)
+        })
+    })
+    return promise
 }
 
 export {imagePdf}
