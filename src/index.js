@@ -12,6 +12,10 @@
  * @param {String} title 下载pdf文件的名称
  * @param {Object} options { 配置信息
  *  fontFamily: 'Microsoft YaHei' 字体名称
+ *  pagePadding: { // pdf 间距
+ *      width: 20,
+ *      height: 25
+ *  }
  * }
  * @return promise.then
  * 支持图片 base64 方式
@@ -29,25 +33,36 @@ const a4Page = {
     height: 841.89
 }
 
-// pdf页面间距
-// 设置height在长图拼接时有重复图片片段问题
-const padding = {
-    width: 20,
-    height: 0
-}
-
-// 生成的pdf的宽高
-const pdfPage = {
-    width: a4Page.width - padding.width * 2,
-    height: a4Page.height - padding.height * 2
-}
-
 let pdf
 let fontFamily
 const defaultFontFamly = 'Microsoft YaHei'
 
+// pdf页面间距
+let padding = {
+    width: 20,
+    height: 25
+}
+
+// 生成的pdf的宽高
+let pdfPage = {}
+
 // pdf插入内容的位置
-let pdfPostion = padding.height
+let pdfPostion = 0
+
+const init = options => {
+    fontFamily = options.fontFamily || defaultFontFamly
+    initFont(jsPDF.API, fontFamily)
+    pdf = new jsPDF('', 'pt', 'a4')
+
+    if(options.pagePadding){
+        Object.assign(padding, options.pagePadding)
+    }
+    pdfPage = {
+        width: a4Page.width - padding.width * 2,
+        height: a4Page.height - padding.height * 2
+    }
+    pdfPostion = padding.height
+}
 
 // 插入图片
 const addImage = img => {
@@ -59,13 +74,12 @@ const addImage = img => {
         let _pdfPostion = pdfPostion
         let imgHeight = imgPage.height
         while (imgHeight > 0) {
-            pdf.addImage(img.data, 'jpeg', padding.width, _pdfPostion, imgPage.width, imgPage.height)
-            _pdfPostion -= pdfPage.height;
+            pdf.addImage(img.data, 'png', padding.width, _pdfPostion, imgPage.width, imgPage.height)
+            _pdfPostion -= pdfPage.height + padding.height * 2;
             imgHeight += _pdfPostion;
             if (imgHeight > 0) {
                 pdf.addPage();
                 pdfPostion = imgHeight
-                _pdfPostion += padding.height
             }
         }
     } else { // 否则将图片插入到pdf中，若pdf剩余高度不足以插入整张图时，新增一页并将插入位置重置
@@ -73,7 +87,7 @@ const addImage = img => {
             pdf.addPage()
             pdfPostion = padding.height
         }
-        pdf.addImage(img.data, 'jpeg', padding.width, pdfPostion, imgPage.width, imgPage.height)
+        pdf.addImage(img.data, 'png', padding.width, pdfPostion, imgPage.width, imgPage.height)
         pdfPostion += imgPage.height
     }
 }
@@ -119,15 +133,19 @@ const savePdf = (images, title, options) => {
 
 /**
  * 图片转为base64信息
- * img: 图片dom
+ * img: 图片dom，设置图片最大宽高，以防渲染出的图片体积过大
  */
 const getBase64Image = img => {
+    if(img.width > 1000) {
+        img.height = img.height / img.width * 1000
+        img.width = 1000
+    }
     const canvas = document.createElement('canvas')
     canvas.width = img.width
     canvas.height = img.height
     const ctx = canvas.getContext("2d")
     ctx.drawImage(img, 0, 0, img.width, img.height)
-    return canvas.toDataURL('image/jpeg', 0.5)
+    return canvas.toDataURL('image/png')
 }
 
 /**
@@ -138,10 +156,7 @@ const getBase64Image = img => {
  */
 
 const imagePdf = (images, title = 'hollton', options = {}) => {
-    fontFamily = options.fontFamily || defaultFontFamly
-    initFont(jsPDF.API, fontFamily)
-    pdf = new jsPDF('', 'pt', 'a4')
-
+    init(options)
     let newImages = []
     let index = 0
     const formatImages = (index, resolve, reject) => {
