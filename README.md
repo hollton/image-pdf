@@ -8,7 +8,7 @@ image-pdf 图片或文字信息转成PDF文件
 ## 功能点 Feature
 * 支持图片 base64 方式
 * 支持图片 src 方式
-* 支持文字
+* 支持中文文字
 * 支持分页，避免图片内容被截断
 * 支持异步回调
 
@@ -22,7 +22,7 @@ image-pdf 图片或文字信息转成PDF文件
 ```
 npm install image-pdf  --save
 
-import {imagePdf} from 'image-pdf'
+import imagePdf from 'image-pdf'
 imagePdf(imagesData, 'title')
 ```
 
@@ -42,12 +42,12 @@ imagePdf(imagesData, 'title')
 *  height 图片高
 *  options: { 文字配置信息
 *   FontSize: 20, 文字大小
-*   Font: 'times', 字体
-*   FontType: 'bold' 字体样式 bold加粗，italic斜体，bolditalic加粗斜体
 *  }
 * }],
 * @param {String} title 下载pdf文件的名称
-* @param {Object} options 配置信息，待完善
+* @param {Object} options{ 配置信息
+*   fontFamily: 'Microsoft YaHei'
+* }
 
 ## 返回 Return
 ```

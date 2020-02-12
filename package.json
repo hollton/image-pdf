@@ -1,6 +1,6 @@
 {
   "name": "image-pdf",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "image-pdf 图片或文字信息转成PDF文件",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/hollton/image-pdf#readme",
   "dependencies": {
-    "jspdf": "^1.5.3"
+    "jspdf": "^1.5.3",
+    "jspdf-font": "^1.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
