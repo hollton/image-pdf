@@ -1,12 +1,13 @@
 /**
  * imagePdf 图片或文字信息转成PDF文件
  * @param {Array} images: [{
- *  type 插入类型，image 图片类型，text 文字类型。默认 image
+ *  type 插入类型，image 图片类型，text 文字类型，page 新增空白页。默认 image
  *  data 插入内容，image 时可为 base64 信息，或 src 地址；text 时为文字内容
  *  width 图片宽，图片信息为 src 时可不传
  *  height 图片高，
  *  options: { 文字配置信息，非必须
- *   FontSize: 20, 文字大小
+ *   fontSize: 16, 文字大小
+ *   lineHeight: 16 行高，默认同fontSize
  *  }
  * }],
  * @param {String} title 下载pdf文件的名称
@@ -94,17 +95,21 @@ const addImage = img => {
 
 // 插入文字
 const addText = text => {
-    const {FontSize = 16} = text.options
-    if (pdfPostion + FontSize > pdfPage.height) {
+    let {fontSize = 16, lineHeight} = text.options
+    lineHeight = lineHeight ? lineHeight : fontSize
+    if (pdfPostion + lineHeight > pdfPage.height) {
         pdf.addPage()
         pdfPostion = padding.height
     }
-    Object.keys(text.options).forEach(key => {
-        pdf[`set${key}`](text.options[key])
-    })
+    pdf.setFontSize(fontSize)
     pdf.setFont(fontFamily)
-    pdf.text(padding.width, pdfPostion + FontSize, text.data)
-    pdfPostion += FontSize
+    pdf.text(padding.width, pdfPostion + lineHeight, text.data)
+    pdfPostion += lineHeight
+}
+
+const addPage = () => {
+    pdf.addPage()
+    pdfPostion = padding.height
 }
 
 /**
@@ -116,6 +121,9 @@ const addText = text => {
 const savePdf = (images, title, options) => {
     images.forEach(img => {
         switch (img.type) {
+            case 'page':
+                addPage()
+                break
             case 'image':
                 addImage(img)
                 break
