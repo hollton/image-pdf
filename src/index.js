@@ -8,11 +8,11 @@
  *  options: { 文字配置信息，非必须
  *   fontSize: 16, 文字大小
  *   lineHeight: 16 行高，默认同fontSize
+ *   textIndent: 0 缩进
  *  }
  * }],
  * @param {String} title 下载pdf文件的名称
  * @param {Object} options { 配置信息
- *  fontFamily: 'Microsoft YaHei' 字体名称
  *  pagePadding: { // pdf 间距
  *      width: 20,
  *      height: 25
@@ -36,7 +36,6 @@ const a4Page = {
 
 let pdf
 let fontFamily
-const defaultFontFamly = 'Microsoft YaHei'
 
 // pdf页面间距
 let padding = {
@@ -51,8 +50,7 @@ let pdfPage = {}
 let pdfPostion = 0
 
 const init = options => {
-    fontFamily = options.fontFamily || defaultFontFamly
-    initFont(jsPDF.API, fontFamily)
+    fontFamily = initFont(jsPDF.API)
     pdf = new jsPDF('', 'pt', 'a4')
 
     if(options.pagePadding){
@@ -95,7 +93,7 @@ const addImage = img => {
 
 // 插入文字
 const addText = text => {
-    let {fontSize = 16, lineHeight} = text.options
+    let {fontSize = 16, lineHeight, textIndent = 0} = text.options
     lineHeight = lineHeight ? lineHeight : fontSize
     if (pdfPostion + lineHeight > pdfPage.height) {
         pdf.addPage()
@@ -103,7 +101,7 @@ const addText = text => {
     }
     pdf.setFontSize(fontSize)
     pdf.setFont(fontFamily)
-    pdf.text(padding.width, pdfPostion + lineHeight, text.data)
+    pdf.text(padding.width + textIndent, pdfPostion + lineHeight, text.data)
     pdfPostion += lineHeight
 }
 

@@ -42,12 +42,12 @@ imagePdf(imagesData, 'title')
 *  height 图片高
 *  options: { 文字配置信息
 *   fontSize: 16, 文字大小
-*   lineHeight: 16 行高，默认同fontSize
+*   lineHeight: 16, 行高，默认同fontSize
+*   textIndent: 0 缩进
 *  }
 * }],
 * @param {String} title 下载pdf文件的名称
 * @param {Object} options{ 配置信息
-*   fontFamily: 'Microsoft YaHei'
 *   pagePadding: { // pdf 间距
 *       width: 20,
 *       height: 25
