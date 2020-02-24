@@ -99,10 +99,13 @@ const addText = text => {
         pdf.addPage()
         pdfPostion = padding.height
     }
-    pdf.setFontSize(fontSize)
-    pdf.setFont(fontFamily)
-    pdf.text(padding.width + textIndent, pdfPostion + lineHeight, text.data)
-    pdfPostion += lineHeight
+    const splitLength = pdfPage.width - textIndent
+    const words = pdf.setFont(fontFamily)
+        .setFontSize(fontSize)
+        .splitTextToSize(text.data, splitLength)
+    const linePadding = lineHeight - fontSize
+    pdf.text(padding.width + textIndent, pdfPostion + linePadding / 2, words)
+    pdfPostion += (fontSize + linePadding) * words.length
 }
 
 const addPage = () => {
