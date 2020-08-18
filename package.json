@@ -4,6 +4,7 @@
   "description": "image-pdf 图片或文字信息转成PDF文件",
   "main": "index.js",
   "scripts": {
+    "start": "react-scripts start",
     "build": "webpack --progress --optimize-minimize"
   },
   "repository": {
@@ -18,7 +19,10 @@
   "homepage": "https://github.com/hollton/image-pdf#readme",
   "dependencies": {
     "jspdf": "^1.5.3",
-    "jspdf-font": "^1.0.7"
+    "jspdf-font": "^1.0.7",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "0.7.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
