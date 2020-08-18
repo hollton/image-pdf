@@ -1,6 +1,6 @@
 {
   "name": "image-pdf",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "image-pdf 图片或文字信息转成PDF文件",
   "main": "index.js",
   "scripts": {

@@ -71,14 +71,14 @@ const addImage = img => {
     }
     if (imgPage.height > pdfPage.height) { // 图片高于一页pdf高度时，将图片截断生成多页pdf
         let _pdfPostion = pdfPostion
-        let imgHeight = imgPage.height
-        while (imgHeight > 0) {
+        let leftImgHeight = imgPage.height
+        while (leftImgHeight > 0) {
             pdf.addImage(img.data, 'png', padding.width, _pdfPostion, imgPage.width, imgPage.height)
             _pdfPostion -= a4Page.height;
-            imgHeight += _pdfPostion;
-            if (imgHeight > 0) {
+            leftImgHeight = imgPage.height + _pdfPostion;
+            if (leftImgHeight > 0) {
                 pdf.addPage();
-                pdfPostion = imgHeight
+                pdfPostion = leftImgHeight
             }
         }
     } else { // 否则将图片插入到pdf中，若pdf剩余高度不足以插入整张图时，新增一页并将插入位置重置
