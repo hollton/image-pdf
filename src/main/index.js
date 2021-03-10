@@ -1,14 +1,14 @@
 /**
  * imagePdf 图片或文字信息转成PDF文件
  * @param {Array} images: [{
- *  type 插入类型，image 图片类型，text 文字类型，page 新增空白页。默认 image
+ *  type 插入类型，image 图片类型，text 文字类型，page 新增一页。默认 image
  *  data 插入内容，image 时可为 base64 信息，或 src 地址；text 时为文字内容
  *  width 图片宽，图片信息为 src 时可不传
  *  height 图片高，
  *  options: { 文字配置信息，非必须
- *   fontSize: 16, 文字大小
- *   lineHeight: 16 行高，默认同fontSize
- *   textIndent: 0 缩进
+ *   fontSize: 文字大小, 默认16px
+ *   spacing: 间距，默认同5px
+ *   textIndent: 文字缩进, 单位px,默认0
  *  }
  * }],
  * @param {String} title 下载pdf文件的名称
@@ -16,7 +16,8 @@
  *  pagePadding: { // pdf 间距
  *      width: 20,
  *      height: 25
- *  }
+ *  },
+ *  initFont: 设置中文支持，需引入'jspdf-font'插件，支持'SongtiSCBlack'字体
  * }
  * @return promise.then
  * 支持图片 base64 方式
@@ -26,7 +27,6 @@
  * 支持异步回调
  */
 import jsPDF from 'jspdf'
-import initFont from 'jspdf-font'
 
 // A4纸宽高
 const a4Page = {
@@ -35,7 +35,7 @@ const a4Page = {
 }
 
 let pdf
-let fontFamily
+let fontFamily = 'Arial'
 
 // pdf页面间距
 let padding = {
@@ -50,7 +50,9 @@ let pdfPage = {}
 let pdfPostion = 0
 
 const init = options => {
-    fontFamily = initFont(jsPDF.API)
+    if(options && typeof options.initFont === 'function') {
+        fontFamily = options.initFont(jsPDF.API)
+    }
     pdf = new jsPDF('', 'pt', 'a4')
 
     if(options.pagePadding){
@@ -93,9 +95,8 @@ const addImage = img => {
 
 // 插入文字
 const addText = text => {
-    let {fontSize = 16, lineHeight, textIndent = 0} = text.options
-    lineHeight = lineHeight ? lineHeight : fontSize
-    if (pdfPostion + lineHeight > pdfPage.height) {
+    let {fontSize = 16, spacing = 5, textIndent = 0} = text.options
+    if (pdfPostion + spacing > pdfPage.height) {
         pdf.addPage()
         pdfPostion = padding.height
     }
@@ -103,9 +104,8 @@ const addText = text => {
     const words = pdf.setFont(fontFamily)
         .setFontSize(fontSize)
         .splitTextToSize(text.data, splitLength)
-    const linePadding = lineHeight - fontSize
-    pdf.text(padding.width + textIndent, pdfPostion + linePadding / 2, words)
-    pdfPostion += (fontSize + linePadding) * words.length
+    pdf.text(padding.width + textIndent, pdfPostion + fontSize + spacing, words)
+    pdfPostion += fontSize * words.length + spacing * 2
 }
 
 const addPage = () => {

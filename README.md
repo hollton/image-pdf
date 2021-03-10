@@ -36,14 +36,14 @@ imagePdf(imagesData, 'title')
 
 ## 参数 Params
 * @param {Array} images: [{
-*  type 插入类型，image 图片类型，text 文字类型，page 新增空白页。默认 image
+*  type 插入类型，image 图片类型，text 文字类型，page 新增一页。默认 image
 *  data 插入内容，image 时可为 base64 信息，或 src 地址；text 时为文字内容
 *  width 图片宽，图片信息为 src 时可不传
 *  height 图片高
 *  options: { 文字配置信息
-*   fontSize: 16, 文字大小
-*   lineHeight: 16, 行高，默认同fontSize
-*   textIndent: 0 缩进
+*   fontSize: 文字大小, 默认16px
+*   spacing: 间距，默认同5px
+*   textIndent: 文字缩进, 单位px,默认0
 *  }
 * }],
 * @param {String} title 下载pdf文件的名称
@@ -51,7 +51,8 @@ imagePdf(imagesData, 'title')
 *   pagePadding: { // pdf 间距
 *       width: 20,
 *       height: 25
-*   }
+*   },
+*   initFont: 设置中文支持，需引入'jspdf-font'插件，支持'SongtiSCBlack'字体
 * }
 
 ## 返回 Return
