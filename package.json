@@ -1,11 +1,12 @@
 {
   "name": "image-pdf",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "image-pdf 图片或文字信息转成PDF文件",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
-    "build": "webpack --progress --optimize-minimize"
+    "copy:publish": "copyfiles ./index.js ./package.json ./README.md ./publish",
+    "build": "webpack --progress --optimize-minimize & npm run copy:publish"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-es2015": "^6.24.1",
+    "copyfiles": "^1.2.0",
     "webpack": "^3.5.3"
   }
 }

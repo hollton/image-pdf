@@ -13,7 +13,7 @@ image-pdf 图片或文字信息转成PDF文件
 * 支持异步回调
 
 ## 效果 Demo
-* [Demo 代码](https://github.com/hollton/image-pdf/blob/master/examples/index.html)
+* [Demo 代码](https://github.com/hollton/image-pdf/blob/master/src/App.js)
 * [生成的 PDF](https://pan.baidu.com/s/17CJ2IBCLCSLdmnxcEud9Tg)
 
 ## 使用 Usage
