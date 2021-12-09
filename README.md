@@ -1,7 +1,9 @@
 # image-pdf
 
-[![npm](https://img.shields.io/npm/v/image-pdf.svg)](https://www.npmjs.com/package/image-pdf) 
-[![LICENSE MIT](https://img.shields.io/npm/l/image-pdf.svg)](https://www.npmjs.com/package/image-pdf)
+![](https://flat.badgen.net/npm/v/image-pdf)
+![](https://flat.badgen.net/bundlephobia/minzip/image-pdf)
+![](https://flat.badgen.net/npm/license/image-pdf)
+![](https://flat.badgen.net/npm/dt/image-pdf)
 
 image-pdf 图片或文字信息转成PDF文件
 
