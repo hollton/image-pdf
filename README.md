@@ -25,7 +25,7 @@
 npm install image-pdf  --save
 
 import imagePdf from 'image-pdf'
-imagePdf(imagesData, 'title')
+imagePdf(imagesData, 'title', options)
 ```
 
 ### script
@@ -33,33 +33,42 @@ imagePdf(imagesData, 'title')
 <script src="index.js"></script>
 
 const {imagePdf} = window.imagePdf
-imagePdf(imagesData, 'title')
+imagePdf(imagesData, 'title', options)
 ```
 
 ## 参数 Params
-* @param {Array} images: [{
-*  type 插入类型，image 图片类型，text 文字类型，page 新增一页。默认 image
-*  data 插入内容，image 时可为 base64 信息，或 src 地址；text 时为文字内容
-*  width 图片宽，图片信息为 src 时可不传
-*  height 图片高
-*  options: { 文字配置信息
-*   fontSize: 文字大小, 默认16px
-*   spacing: 间距，默认同5px
-*   textIndent: 文字缩进, 单位px,默认0
-*  }
-* }],
-* @param {String} title 下载pdf文件的名称
-* @param {Object} options{ 配置信息
-*   pagePadding: { // pdf 间距
-*       width: 20,
-*       height: 25
-*   },
-*   initFont: 设置中文支持，需引入'jspdf-font'插件，支持'SongtiSCBlack'字体
-* }
+
+| 参数名      | 描述           | 默认值 | 必填 |
+| ---------- | --------        | ----- | --- |
+| imagesData | 图片、文字信息  |   -   | Y |
+| title      | 生成pdf名称    |   -    | Y |
+| options    | 额外配置       |   -   | N |
+
+### imagesData 图片、文字信息
+| 参数名  | 描述      | 默认值 | 必填 |
+| ------- | --------  | ----- | --- |
+| type    | 插入类型  | image | N，image 图片类型，text 文字类型，page 新增空白页 |
+| data    | 插入内容  |   -   | Y，type=image 时可为 base64 或 src 地址；type=text时为文字内容 |
+| width   | 图片宽度  |   -   | N，data为 图片src 时可不传 |
+| height  | 图片高度  |   -   | N，同上 |
+| options | 文字配置  |   -   | N |
+
+#### imagesData - options 文字配置
+| 参数名      | 描述     | 默认值 | 必填     |
+| ----------- | -------- | ----- | --------- |
+| fontSize    | 文字大小 | 16    | N，单位px |
+| spacing    | 间距     |   5   | N，单位px |
+| textIndent | 文字缩进 |   0   | N，单位px |
+
+### options 额外配置
+| 参数名      | 描述         | 默认值                    | 必填 |
+| ----------- | ------------ | ------------------------- | --- |
+| pagePadding | pdf 间距     | { width: 20, height: 25 } | N，单位px |
+| initFont    | 中文字体支持 |              -            | N，安装引入'jspdf-font'，支持'SongtiSCBlack'字体 |
 
 ## 返回 Return
 ```
-imagePdf(imagesData, 'title').then(result => {
+imagePdf(imagesData, 'title', options).then(result => {
     console.log(result)
 }, error => {
     console.log(error)
