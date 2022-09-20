@@ -15,7 +15,7 @@
 * 支持异步回调
 
 ## 效果 Demo
-* [Demo 代码](https://github.com/hollton/image-pdf/blob/master/src/App.js)
+* [CodeSandbox Demo](https://codesandbox.io/s/tm7so)
 * [生成的 PDF](https://pan.baidu.com/s/17CJ2IBCLCSLdmnxcEud9Tg)
 
 ## 使用 Usage
