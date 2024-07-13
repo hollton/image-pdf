@@ -5,7 +5,7 @@
 ![](https://flat.badgen.net/npm/license/image-pdf)
 ![](https://flat.badgen.net/npm/dt/image-pdf)
 
-基于 [jsPDF](https://github.com/parallax/jsPDF) 将图片或文字信息转成 PDF 文件
+基于 [jsPDF](https://github.com/parallax/jsPDF) 将图片或文字信息转成 PDF 文件，搭配[html2ImageStream](https://github.com/hollton/html2ImageStream)可实现 HTML 页面截图导出为 PDF
 
 ## 功能点 Feature
 * 支持图片 base64 方式
